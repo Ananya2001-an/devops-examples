@@ -5,7 +5,7 @@ metadata:
     app: mongo-exp
   name: mongo-express-depl
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mongo-exp
@@ -44,7 +44,7 @@ metadata:
  name: mongo-express-service
 spec: 
   selector:
-    app: mongo-express
+    app: mongo-exp
   type: LoadBalancer
   ports:
   - protocol: TCP
