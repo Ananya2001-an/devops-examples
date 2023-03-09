@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp-argo-application
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://gitlab.com/nanuchi/argocd-app-config.git
+    targetRevision: HEAD
+    path: dev
+  destination: 
+    # connects to the kubernetes internal service for apiserver 
+    server: https://kubernetes.default.svc
+    # a new namespace will be defined to create the given components in dev folder/path
+    namespace: myapp
+
+  # by default sync options are disabled for security mechanism
+  syncPolicy:
+    syncOptions:
+    # argocd creates namespace in cluster if not found (myapp)
+    - CreateNamespace=true
+
+    # does automatic syncing every 3 mins if any changes to components config file made in the source gitops repo
+    automated:
+      selfHeal: true
+      prune: true
